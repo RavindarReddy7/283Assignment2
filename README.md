@@ -14,25 +14,7 @@
 - - - sudo make -j 6
 - - - sudo make modules_install && sudo make install
 #### 2. Now the Kernel is build. Reboot the machine using sudo reboot
-#### 3. Now we have to make changes to the cpuid.c and vmx.c file, and add code to report data for the leaf nodes we have 
-
-	``` if(eax==0x4fffffff){
-		eax=atomic64_read(&exit_counters);
-		printk("eax is 0x4fffffff \n Total exits eax=%u",eax); 
-	}
-	else if(eax==0x4ffffffe){
-		//kvm_cpuid(vcpu, &eax, &ebx, &ecx, &edx, true);
-				
-		ebx = ((atomic64_read(&exit_duration)>>32)  );
-		printk("eax = 0x4FFFFFFE \n Total time spent processing all exits in ebx[high 32 bits] = %u", ebx);
-			
-		ecx = (atomic64_read(&exit_duration) & 0xffffffff);
-		printk("eax = 0x4ffffffe \n Total time spent processing all exits in ecx[low 32 bits] = %u", ecx);
-		
-		printk("eax = 0x4ffffffe \n Total Cycles spent in exit = %llu", atomic64_read(&exit_duration));
-	
-	}```
-- - - The above code is for 0xffffffe and oxfffffff. Build the kernel again.
+#### 3. Now we have to make changes to the cpuid.c and vmx.c file.
 
 #### 4. Now we need to install virtual manager and for that we need to install kvm and virt-manager
 - - - Use this link to follow steps needed: https://help.ubuntu.com/community/KVM/Installation
